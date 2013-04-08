@@ -15,13 +15,6 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
     }
 
     /**
-     * 
-     */
-    function __construct() {
-//        Yii::app()->clientScript->registerCoreScript('jquery');
-    }
-
-    /**
      * Format of the columns is an array of coumn names (as the index)
      * against an array of contruction data for the clinic row. The idea is
      * that each column contains at least one piece of information, possibly
@@ -77,7 +70,7 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
             'event_type' => 'OphCiExamination',
             'class_name' => 'Element_OphCiExamination_PosteriorSegment',
             'field' => array(array('left_cd_ratio', 'name'), array('right_cd_ratio', 'name'))));
-    
+
     /**
      * Enables custom formatting of table data.
      * 
@@ -98,15 +91,14 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
         return $text;
     }
 
-	public function beforeControllerAction($controller, $action) {
-		if(parent::beforeControllerAction($controller, $action))
-		{
-			// this method is called before any module controller action is performed
-			// you may place customized code here
-			return true;
-		}
-		else
-			return false;
-	}
+    public function beforeControllerAction($controller, $action) {
+        if (parent::beforeControllerAction($controller, $action)) {
+            // this method is called before any module controller action is performed
+            // you may place customized code here
+            return true;
+        }
+        else
+            return false;
+    }
 
 }
