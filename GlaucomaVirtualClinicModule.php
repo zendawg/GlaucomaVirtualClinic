@@ -14,8 +14,11 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
         parent::init();
     }
 
+    /**
+     * 
+     */
     function __construct() {
-        
+//        Yii::app()->clientScript->registerCoreScript('jquery');
     }
 
     /**
@@ -74,5 +77,25 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
             'event_type' => 'OphCiExamination',
             'class_name' => 'Element_OphCiExamination_PosteriorSegment',
             'field' => array(array('left_cd_ratio', 'name'), array('right_cd_ratio', 'name'))));
+    
+    /**
+     * Enables custom formatting of table data.
+     * 
+     * @param string $columnName the column name being formatted.
+     * 
+     * @param mixed $data data passed in representing the column's value.
+     * 
+     * @return string formatted text, if the specified column had custom
+     * formatting; null otherwise.
+     */
+    public static function formatData($columnName, $data) {
+        $text = null;
+        if ($columnName == 'IOP' && $data) {
+            if ($data[0] && $data[1]) {
+                $text = "LE: " . $data[0] . "<br>" . "RE: " . $data[1];
+            }
+        }
+        return $text;
+    }
 
 }
