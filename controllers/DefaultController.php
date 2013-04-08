@@ -1,6 +1,6 @@
 <?php
 
-class SummaryController extends BaseEventTypeController {
+class DefaultController extends BaseEventTypeController {
 
     public function actionCreate() {
         parent::actionCreate();
