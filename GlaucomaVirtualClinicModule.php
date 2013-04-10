@@ -83,7 +83,7 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
      */
     public static function formatData($columnName, $data) {
         $text = null;
-        if ($columnName == 'IOP' && $data) {
+        if (($columnName == 'IOP' || $columnName == 'C/D Ratio') && $data) {
             if ($data[0] && $data[1]) {
                 $text = "LE: " . $data[0] . "<br>" . "RE: " . $data[1];
             }
