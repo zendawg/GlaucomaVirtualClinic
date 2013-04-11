@@ -58,6 +58,10 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
             'event_type' => 'OphCiExamination',
             'class_name' => 'Element_OphCiExamination_IntraocularPressure',
             'field' => array(array('left_reading', 'value'), array('right_reading', 'value'))),
+        'CCT' => array(
+            'event_type' => 'OphCiExamination',
+            'class_name' => 'Element_OphCiExamination_CentralCornealThickness',
+            'field' => array(array('left_cct'), array('right_cct'))),
         'Comments' => array(
             'event_type' => 'OphCiExamination',
             'class_name' => 'Element_OphCiExamination_GlaucomaManagement',
@@ -84,9 +88,9 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
      */
     public static function formatData($columnName, $data) {
         $text = null;
-        if (($columnName == 'IOP') && $data) {
+        if (($columnName == 'IOP' || $columnName == 'CCT') && $data) {
             if ($data[0] && $data[1]) {
-                $text = "LE: " . $data[0] . "<br>" . "RE: " . $data[1];
+                $text = "RE: " . $data[1] . "<br>" . "LE: " . $data[0];
             }
         }
         if ($columnName == 'Medications' && $data) {
