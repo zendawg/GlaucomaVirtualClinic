@@ -58,18 +58,19 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
             'event_type' => 'OphCiExamination',
             'class_name' => 'Element_OphCiExamination_IntraocularPressure',
             'field' => array(array('left_reading', 'value'), array('right_reading', 'value'))),
-        'History' => array(
+        'Comments' => array(
             'event_type' => 'OphCiExamination',
-            'class_name' => 'Element_OphCiExamination_History',
-            'field' => 'description'),
-        'Conclusion' => array(
+            'class_name' => 'Element_OphCiExamination_GlaucomaManagement',
+            'field' => 'comments'),
+        'Medications' => array(
             'event_type' => 'OphCiExamination',
-            'class_name' => 'Element_OphCiExamination_Conclusion',
-            'field' => 'description'),
-        'C/D Ratio' => array(
-            'event_type' => 'OphCiExamination',
-            'class_name' => 'Element_OphCiExamination_PosteriorSegment',
-            'field' => array(array('left_cd_ratio', 'name'), array('right_cd_ratio', 'name'))));
+            'class_name' => 'Element_OphCiExamination_GlaucomaManagement',
+            'field' => array(array('med_1_right', 'shortname'), 
+                array('med_2_right', 'shortname'), 
+                array('med_3_right', 'shortname'),
+                array('med_1_left', 'shortname'),
+                array('med_2_left', 'shortname'),
+                array('med_3_left', 'shortname'))));
 
     /**
      * Enables custom formatting of table data.
@@ -86,6 +87,21 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
         if (($columnName == 'IOP' || $columnName == 'C/D Ratio') && $data) {
             if ($data[0] && $data[1]) {
                 $text = "LE: " . $data[0] . "<br>" . "RE: " . $data[1];
+            }
+        }
+        if ($columnName == 'Medications' && $data) {
+            for ($i=0; $i < 3; $i++) {
+                if ($data[$i]) {
+                    $text = $text . $data[$i] . " ";
+                }
+            }
+            if ($data[0] || $data[1] || $data[2]) {
+                $text = $text . "<br/>";
+            }
+            for ($i=3; $i < 6; $i++) {
+                if ($data[$i]) {
+                    $text = $text . $data[$i] . " ";
+                }
             }
         }
         return $text;
