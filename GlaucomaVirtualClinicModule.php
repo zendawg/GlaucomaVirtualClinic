@@ -96,16 +96,26 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
         if ($columnName == 'Medications' && $data) {
             for ($i=0; $i < 3; $i++) {
                 if ($data[$i]) {
-                    $text = $text . $data[$i] . " ";
+                    $text = $text . substr($data[$i], 0, 3) . "/";
                 }
+            }
+            $FU = $text[strlen($text)-1];
+            if ($text[strlen($text)-1] == "/") {
+                $text = substr($text, 0, strlen($text)-1);
             }
             if ($data[0] || $data[1] || $data[2]) {
                 $text = $text . "<br/>";
             }
             for ($i=3; $i < 6; $i++) {
                 if ($data[$i]) {
-                    $text = $text . $data[$i] . " ";
+                    $text = $text . substr($data[$i], 0, 3) . "/";
                 }
+            }
+            if ($text[count($text)-1] == "/") {
+                $text = substr($text, 0, count($text));
+            }
+            if ($text[strlen($text)-1] == "/") {
+                $text = substr($text, 0, strlen($text)-1);
             }
         }
         return $text;
