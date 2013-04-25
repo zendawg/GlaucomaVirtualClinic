@@ -10,7 +10,7 @@ class GlaucomaVirtualClinicModule extends BaseEventTypeModule {
             'GlaucomaVirtualClinic.models.*',
             'GlaucomaVirtualClinic.components.*',
         ));
-
+        
         parent::init();
     }
 

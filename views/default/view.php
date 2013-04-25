@@ -28,16 +28,16 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
     ?>
 
     <script type="text/javascript">
-                                                                                                                                                                                        
+                                                                                                                                                                                            
         // Runs on page load
-        function init()
+        function init_graphs()
         {
             // Get reference to the drawing canvas
             var canvas = document.getElementById('canvasR');
-                                                                                                                                                                        
+                                                                                                                                                                            
             // Create a drawing linked to the canvas
             eyeGraph = new EG.Graph(canvas);
-                                                                                                                                                                        
+                                                                                                                                                                            
             // Set x axis details
     <?php
     echo $obj->getEyeGraphDates();
@@ -72,10 +72,10 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
                     eyeGraph.draw();
                     // Get reference to the drawing canvas
                     var canvas = document.getElementById('canvasL');
-                                                                                                                                                                        
+                                                                                                                                                                            
                     // Create a drawing linked to the canvas
                     eyeGraph = new EG.Graph(canvas);
-                                                                                                                                                                        
+                                                                                                                                                                            
                     // Set x axis details
     <?php
     echo $obj->getEyeGraphDates();
@@ -110,7 +110,7 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
                         // Draw graph
                         eyeGraph.draw();
                         // Now ad visual field graphs:
-                                                  
+                                                      
                     }                                                                                                                           	            
     </script>
     <?php
@@ -304,9 +304,15 @@ if (count($eyeLeftFilesVfa) > 0) {
 ?>
 
 <div style="clear: both"></div> 
-<script type="text/javascript">
-                init();
-</script>
+
 <?php
+if (count($iops_left) > 1 || count($iops_right) > 1) {
+    ?>
+    <script>
+                    init_graphs();
+    </script>
+
+    <?php
+}
 $this->footer();
 ?>
