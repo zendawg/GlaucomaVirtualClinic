@@ -1,6 +1,17 @@
 
 <?php
-$this->header($editable = false);
+try {
+    $this->header($editable = false);
+} catch (Exception $e) {
+    
+}
+try {
+    $assetUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.GlaucomaVirtualClinic.assets.js'));
+    Yii::app()->clientScript->registerScriptFile($assetUrl.'/imageLoader.js'); 
+    Yii::app()->clientScript->registerScriptFile($assetUrl.'/EyeGraph.js'); 
+} catch (Exception $e) {
+    
+}
 $summaryPath = 'application.modules.GlaucomaVirtualClinic.models.GlaucomaSummaryView';
 Yii::import($summaryPath, true);
 Yii::import('application.modules.GlaucomaVirtualClinic.models.*', true);
@@ -28,16 +39,16 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
     ?>
 
     <script type="text/javascript">
-                                                                                                                                                                                            
+                                                                                                                                                                                                
         // Runs on page load
         function init_graphs()
         {
             // Get reference to the drawing canvas
             var canvas = document.getElementById('canvasR');
-                                                                                                                                                                            
+                                                                                                                                                                                
             // Create a drawing linked to the canvas
             eyeGraph = new EG.Graph(canvas);
-                                                                                                                                                                            
+                                                                                                                                                                                
             // Set x axis details
     <?php
     echo $obj->getEyeGraphDates();
@@ -72,10 +83,10 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
                     eyeGraph.draw();
                     // Get reference to the drawing canvas
                     var canvas = document.getElementById('canvasL');
-                                                                                                                                                                            
+                                                                                                                                                                                
                     // Create a drawing linked to the canvas
                     eyeGraph = new EG.Graph(canvas);
-                                                                                                                                                                            
+                                                                                                                                                                                
                     // Set x axis details
     <?php
     echo $obj->getEyeGraphDates();
@@ -110,7 +121,7 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
                         // Draw graph
                         eyeGraph.draw();
                         // Now ad visual field graphs:
-                                                      
+                                                          
                     }                                                                                                                           	            
     </script>
     <?php
@@ -136,19 +147,19 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
     ?>
 
     <div class="section" style="float: left; margin-left: 100px; ">
-        <?php
-        $iopLeft = "-";
-        $iopRight = "-";
-        if (count($iops_left)) {
-            $iopLeft = $iops_left[0];
-        }
-        if (count($iops_right)) {
-            $iopRight = $iops_right[0];
-        }
-        echo "There is only 1 recorded IOP for this patient (RE/LE): "
-        . $iopRight . " / " . $iopLeft
-        . "<br>At least two (2) IOPs must be recorded for the graph to be drawn.";
-        ?>
+    <?php
+    $iopLeft = "-";
+    $iopRight = "-";
+    if (count($iops_left)) {
+        $iopLeft = $iops_left[0];
+    }
+    if (count($iops_right)) {
+        $iopRight = $iops_right[0];
+    }
+    echo "There is only 1 recorded IOP for this patient (RE/LE): "
+    . $iopRight . " / " . $iopLeft
+    . "<br>At least two (2) IOPs must be recorded for the graph to be drawn.";
+    ?>
     </div>
     <div style="clear: both"></div> 
     <?php
@@ -156,7 +167,7 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
     ?>
 
     <div class="section" style="float: left; margin-bottom: 10px; margin-top: 10px; margin-left: 100px; ">
-        <?php echo "There are no IOPs recorded for this patient."; ?>
+    <?php echo "There are no IOPs recorded for this patient."; ?>
     </div>
     <div style="clear: both"></div> 
     <?php
@@ -172,23 +183,28 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
 $imageIndex = 0;
 foreach ($eyeRightFiles as $file) {
     // large-size image storage location:
-    echo "\nimagesStereoRight[" . ($imageIndex++) . "] = \"" . DiscUtils::getEncodedDiscFileName($patient->hos_num, $file->file->name) . "\";";
+    $x = $file->file->name;
+    echo "\nimagesStereoRight[" . ($imageIndex++) . "] = \"" . DiscUtils::getEncodedDiscFileName($patient->hos_num, $file->file->name) . "/thumbs/" . $file->file->name . "\";";
 }
 $imageIndex = 0;
 foreach ($eyeLeftFiles as $file) {
     // large-size image storage location:
-    echo "\n imagesStereoLeft[" . ($imageIndex++) . "] = \"" . DiscUtils::getEncodedDiscFileName($patient->hos_num, $file->file->name) . "\";";
+    echo "\n imagesStereoLeft[" . ($imageIndex++) . "] = \"" . DiscUtils::getEncodedDiscFileName($patient->hos_num, $file->file->name) . "/thumbs/" . $file->file->name . "\";";
 }
 
 $imageIndex = 0;
 foreach ($eyeRightFilesVfa as $file) {
-    // large-size image storage location:
-    echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "\";";
+   if ($file->vfa_file) {
+        // large-size image storage location:
+        echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->vfa_file->file->name . "\";";
+   }
 }
 $imageIndex = 0;
 foreach ($eyeLeftFilesVfa as $file) {
     // large-size image storage location:
-    echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "\";";
+    if ($file->vfa_file) {
+        echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->vfa_file->file->name . "\";";
+    }
 }
 ?>
                 window.onload = function() {
@@ -248,11 +264,11 @@ foreach ($eyeLeftFilesVfa as $file) {
 
 <div style="clear: both"></div> 
 <div id="x" style="float:left; margin-bottom: 10px; margin-top: 10px; margin-left: 100px; ">
-    <?php echo "Stereo images: " . count($eyeRightFiles) ?>
+<?php echo "Stereo images: " . count($eyeRightFiles) ?>
 </div>
 
 <div id="x" style="float:right; margin-bottom: 10px; margin-top: 10px; margin-right: 100px; ">
-    <?php echo "Stereo images: " . count($eyeLeftFiles) ?>
+<?php echo "Stereo images: " . count($eyeLeftFiles) ?>
 </div>
 <div style="clear: both"></div> 
 <?php
@@ -277,11 +293,11 @@ if (count($eyeLeftFiles) > 0) {
 <div style="clear: both"></div> 
 
 <div id="x" style="float:left; margin-bottom: 10px; margin-top: 10px; margin-left: 100px; ">
-    <?php echo "VFA images: " . count($eyeRightFilesVfa) ?>
+<?php echo "VFA images: " . count($eyeRightFilesVfa) ?>
 </div>
 
 <div id="x" style="float:right; margin-bottom: 10px; margin-top: 10px; margin-right: 100px; ">
-    <?php echo "VFA images: " . count($eyeLeftFilesVfa) ?>
+<?php echo "VFA images: " . count($eyeLeftFilesVfa) ?>
 </div>
 <div style="clear: both"></div> 
 
@@ -314,5 +330,9 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
 
     <?php
 }
-$this->footer();
+try {
+    $this->footer();
+} catch (Exception $e) {
+    
+}
 ?>
