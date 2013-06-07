@@ -177,14 +177,13 @@ if (count($iops_left) > 1 || count($iops_right) > 1) {
 
 <script type="text/javascript">
                 var imagesStereoRight = new Array();
-                var imagesStereoLeft = new Array();
+                var imagesStereoLeft = new Array()
                 var imagesVfaRight = new Array();
                 var imagesVfaLeft = new Array();
 <?php
 $imageIndex = 0;
 foreach ($eyeRightFiles as $file) {
     // large-size image storage location:
-    $x = $file->file->name;
     echo "\nimagesStereoRight[" . ($imageIndex++) . "] = \"" . DiscUtils::getEncodedDiscFileName($patient->hos_num, $file->file->name) . "/thumbs/" . $file->file->name . "\";";
 }
 $imageIndex = 0;
@@ -196,16 +195,15 @@ foreach ($eyeLeftFiles as $file) {
 $imageIndex = 0;
 foreach ($eyeRightFilesVfa as $file) {
    if ($file->fsScanHumphreyImage) {
-     $x = $file->fsScanHumphreyImage->file->name;
         // large-size image storage location:
-        echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
+        echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->asset->file->name . "\";";
    }
 }
 $imageIndex = 0;
 foreach ($eyeLeftFilesVfa as $file) {
     // large-size image storage location:
     if ($file->fsScanHumphreyImage) {
-        echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
+        echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->asset->file->name . "\";";
     }
 }
 ?>
@@ -235,6 +233,7 @@ foreach ($eyeLeftFilesVfa as $file) {
                             "canvasStereoLeft", imageObjLeft, imagesStereoLeft,
                             "canvasVfaLeft", imagesVfaLeft)}, false);
                     }
+                    // =========================================================
                     
                     var canvasVfa = document.getElementById("canvasVfaRight");
                     if (canvasVfa != null) {
@@ -244,6 +243,7 @@ foreach ($eyeLeftFilesVfa as $file) {
                             contextVfa.drawImage(imageObjVfaRight, 0, 0);
                         };
                         imageObjVfaRight.src = imagesVfaRight[0];
+                        var imageObjAlgRight = new Image();
                         canvasVfa.addEventListener('mousemove', function(e){ev_mousemove(e, 
                             "canvasVfaRight", imageObjVfaRight, imagesVfaRight,
                             "canvasStereoRight", imagesStereoRight)}, false);
@@ -261,6 +261,7 @@ foreach ($eyeLeftFilesVfa as $file) {
                             "canvasVfaLeft", imageObjVfaLeft, imagesVfaLeft,
                             "canvasStereoLeft", imagesStereoLeft)}, false);
                     }
+                    // =========================================================
                 };
 </script>
 
