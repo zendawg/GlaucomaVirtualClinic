@@ -32,8 +32,8 @@ Yii::import('application.modules.module_esb_mirth.models.*');
 $eyeRightFiles = DiscUtils::getDiscFileList($patient, 'R');
 $eyeLeftFiles = DiscUtils::getDiscFileList($patient, 'L');
 $doc = new ScannedDocument();
-$eyeRightFilesVfa = $doc->getScannedDocuments('humphreys', $patient->nhs_num, array('eye' => 'R'));
-$eyeLeftFilesVfa = $doc->getScannedDocuments('humphreys', $patient->nhs_num, array('eye' => 'L'));
+$eyeRightFilesVfa = $doc->getScannedDocuments('humphreys', $patient->nhs_num, array('eye' => 'R', 'associated' => '1'));
+$eyeLeftFilesVfa = $doc->getScannedDocuments('humphreys', $patient->nhs_num, array('eye' => 'L', 'associated' => '1'));
 ?>
 <?php
 if (count($iops_left) > 1 || count($iops_right) > 1) {
@@ -196,14 +196,16 @@ $imageIndex = 0;
 foreach ($eyeRightFilesVfa as $file) {
    if ($file->fsScanHumphreyImage) {
         // large-size image storage location:
-        echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->asset->file->name . "\";";
+     $dir = $file->fsScanHumphreyImage->file->dir;
+     $dir = $file->fsScanHumphreyImage->file->dir->path;
+        echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
    }
 }
 $imageIndex = 0;
 foreach ($eyeLeftFilesVfa as $file) {
     // large-size image storage location:
     if ($file->fsScanHumphreyImage) {
-        echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->asset->file->name . "\";";
+        echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
     }
 }
 ?>
