@@ -195,17 +195,16 @@ foreach ($eyeLeftFiles as $file) {
 $imageIndex = 0;
 foreach ($eyeRightFilesVfa as $file) {
   if ($file->fsScanHumphreyImage) {
+//    $x = $file->fsScanHumphreyImage->getXPath($file, '/images');
     // large-size image storage location:
-    $dir = $file->fsScanHumphreyImage->file->dir;
-    $dir = $file->fsScanHumphreyImage->file->dir->path;
-    echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
+    echo "\nimagesVfaRight[" . ($imageIndex++) . "] = \"" . $file->fsScanHumphreyImage->getPath('thumbs/') . $file->file_name . "\";";
   }
 }
 $imageIndex = 0;
 foreach ($eyeLeftFilesVfa as $file) {
   // large-size image storage location:
   if ($file->fsScanHumphreyImage) {
-    echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . VfaUtils::getEncodedDiscFileName($patient->hos_num, $file->file_name) . "/thumbs/" . $file->fsScanHumphreyImage->file->name . "\";";
+    echo "\n imagesVfaLeft[" . ($imageIndex++) . "] = \"" . $file->fsScanHumphreyImage->getPath('thumbs/') . $file->file_name . "\";";
   }
 }
 ?>
