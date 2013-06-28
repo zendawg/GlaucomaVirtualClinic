@@ -247,6 +247,7 @@ foreach ($eyeLeftFilesVfa as $file) {
             var imageObjAlgRight = new Image();
             canvasVfa.addEventListener('mousemove', function(e){ev_mousemove(e, 
               "canvasVfaRight", imageObjVfaRight, imagesVfaRight,
+              "canvasVfaLeft", imageObjVfaLeft, imagesVfaLeft,
               "canvasStereoRight", imagesStereoRight)}, false);
           }
                     
@@ -260,6 +261,7 @@ foreach ($eyeLeftFilesVfa as $file) {
             imageObjVfaLeft.src = imagesVfaLeft[0];
             canvasVfa2.addEventListener('mousemove', function(e){ev_mousemove(e, 
               "canvasVfaLeft", imageObjVfaLeft, imagesVfaLeft,
+              "canvasVfaRight", imageObjVfaRight, imagesVfaRight,
               "canvasStereoLeft", imagesStereoLeft)}, false);
           }
           // =========================================================
